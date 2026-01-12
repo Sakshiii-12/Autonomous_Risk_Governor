@@ -1,186 +1,102 @@
-## Project Overview
-
-Retail trading platforms allow easy access to financial markets, but most retail traders lose capital due to **emotional and behavioral mistakes**, not lack of information. Common issues include overtrading, revenge trading, breaking risk limits, and trading during high-risk market conditions.
-
-This project proposes a **multi-agent AI system** that continuously monitors trader behavior, account risk, and market context, and **intervenes in real time** to prevent destructive trading actions. The system does **not provide financial advice**, **does not predict prices**, and **does not suggest buy or sell decisions**. Its only goal is **capital protection and behavioral discipline**.
-
+# TradeGuard AI
 
 ## Problem Statement
 
-* Over 90 percent of retail traders lose money consistently.
-* Losses are primarily caused by emotional decision-making.
-* Existing platforms only provide indicators, alerts, or post-loss analysis.
-* There is no real-time, personalized, autonomous system that actively prevents risky actions at the moment they occur.
+Most retail traders lose capital due to behavioral and psychological biases rather than lack of market information. Common issues include overtrading, revenge trading, ignoring predefined risk limits, and trading during unstable market conditions.
+
+Existing trading platforms primarily provide indicators, alerts, or post-loss analytics. These tools rely heavily on trader self-control and rational decision-making, which often fails during emotionally stressful situations. There is a lack of autonomous systems that actively prevent risky trades at the moment of execution.
 
 
 ## Proposed Solution
 
-We build a **multi-agent AI-based risk protection layer** that sits on top of a trading platform and works as a safety mechanism.
+Autonomous Risk Governor, also referred to as TradeGuard AI, is a real-time autonomous risk control system designed for retail trading platforms. The system evaluates every trade request before execution by monitoring trader behavior, account-level risk exposure, and current market conditions.
 
-Instead of a single monolithic model, the system is divided into **independent agents**, each responsible for monitoring a specific aspect of trading behavior or risk. These agents collaborate to decide when and how to intervene.
-
-
-## System Architecture and Agents
-
-### Behavior Monitoring Agent
-
-**Purpose**
-Monitors trader actions to detect emotional or impulsive behavior.
-
-**Observes**
-
-* Frequency of trades
-* Sudden increase in trade size
-* Trading immediately after losses
-* Rapid consecutive trades
-
-**Detects**
-
-* Overtrading
-* Revenge trading
-* FOMO-driven behavior
+The goal of the system is to enforce risk discipline automatically without interfering with the trader’s strategy or providing financial advice.
 
 
-### Risk Management Agent
+## System Architecture
 
-**Purpose**
-Ensures that account-level risk limits are not violated.
+The system follows a modular multi-agent architecture. Each agent operates independently with a clearly defined responsibility. This design improves scalability, interpretability, and reliability.
 
-**Observes**
+### Agents Used
 
-* Daily loss limits
-* Drawdown
-* Position sizing
-* Margin usage
+**Behavior Monitoring Agent**
+Monitors trading patterns to detect emotional or impulsive behavior such as overtrading and revenge trading.
 
-**Function**
+**Risk Management Agent**
+Evaluates account-level risk metrics including drawdown, loss limits, margin usage, and position sizing.
 
-* Evaluates whether a trade violates predefined or learned risk constraints.
+**Market Context Agent**
+Identifies high-risk market conditions such as volatility spikes and unstable trading periods.
 
+**Personalization Agent**
+Learns individual trader behavior and adapts risk thresholds accordingly.
 
-### Market Context Agent
+**Coordination Agent**
+Aggregates signals from all agents and determines the overall risk level.
 
-**Purpose**
-Identifies risky market conditions without predicting prices.
-
-**Observes**
-
-* Volatility spikes
-* Low liquidity periods
-* News-driven instability
-
-**Function**
-
-* Flags high-risk environments where retail traders are more likely to lose.
-
-
-### Personalization Agent
-
-**Purpose**
-Adapts the system to individual trader behavior.
-
-**Learns**
-
-* Typical trade size
-* Risk tolerance
-* Common behavioral mistakes
-* Historical loss patterns
-
-**Function**
-
-* Adjusts thresholds dynamically for each trader.
-
-
-### Intervention Agent
-
-**Purpose**
-Executes protective actions when risk is high.
-
-**Possible Interventions**
-
-* Temporary trade cooldown
-* Reduced position size
-* Mandatory confirmation before trade
-* Warning or reflection prompts
-
-**Important Note**
-This agent **restricts actions** but **never suggests trades**.
-
-
-### Coordination Agent
-
-**Purpose**
-Acts as the decision-maker that combines signals from all agents.
-
-**Function**
-
-* Collects outputs from all agents
-* Determines overall risk level
-* Decides if intervention is required and its severity
+**Intervention Agent**
+Applies real-time actions such as trade restriction, cooldown periods, or confirmation requirements.
 
 
 ## System Workflow
 
-1. Trader performs an action (places or attempts a trade)
-2. Behavior agent analyzes trading patterns
-3. Risk agent checks account safety
-4. Market agent evaluates market conditions
-5. Personalization agent adjusts thresholds
-6. Coordination agent makes final decision
-7. Intervention agent applies protective action if required
+1. A trader attempts to place a trade
+2. Behavioral patterns are analyzed
+3. Account risk exposure is evaluated
+4. Market conditions are assessed
+5. Personalized thresholds are applied
+6. A final risk decision is made
+7. The trade is allowed or restricted before execution
+
+All steps occur in real time.
 
 
 ## Key Features
 
-* Real-time behavioral monitoring
-* Personalized risk control
-* Market-aware protection
-* Modular multi-agent design
-* No financial advice or predictions
-* Ethical and regulation-aware approach
+* Real-time trade risk evaluation
+* Behavioral pattern detection
+* Personalized risk enforcement
+* Market-aware risk control
+* Autonomous intervention at execution time
+* Modular and scalable architecture
+* Ethical and non-advisory design
 
 
-## Technology Stack (Proposed)
 
-* Python
-* Rule-based logic and ML models
-* Event-driven architecture
-* REST or platform API integration
-* Logging and monitoring system
+## Tools and Technologies
+
+| Category               | Tools and Technologies      | Purpose                                       |
+| ---------------------- | --------------------------- | --------------------------------------------- |
+| Programming Language   | Python                      | Core system logic and agent implementation    |
+| Data Processing        | NumPy, Pandas               | Behavioral data analysis and risk computation |
+| Machine Learning       | scikit-learn                | Pattern detection and personalization logic   |
+| Backend Framework      | FastAPI or Flask            | API services and system integration           |
+| System Architecture    | Event-driven processing     | Real-time trade evaluation                    |
+| Risk Logic             | Rule-based and hybrid logic | Enforcement of risk constraints               |
+| Data Storage           | SQLite or PostgreSQL        | Trader profiles and system logs               |
+| Monitoring and Logging | Logging module              | Auditing and system observability             |
+| Visualization          | Streamlit                   | Behavioral and risk insights                  |
+
 
 
 ## Use Case Example
 
-A trader experiences a sudden loss and immediately attempts to place a larger trade.
-
-* Behavior agent detects revenge trading
-* Risk agent flags position size violation
-* Market agent detects high volatility
-* Coordination agent confirms high risk
-* Intervention agent enforces a cooldown period
-
-This prevents further capital loss.
+If a trader experiences a loss and immediately attempts to place a larger trade, the system detects emotional behavior, evaluates account risk exposure, considers current market instability, and applies a restriction or cooldown. This prevents further capital loss caused by impulsive decisions.
 
 
-## Future Scope
 
-* Integration with live trading platforms
-* Advanced behavioral models
-* Reinforcement learning for adaptive interventions
-* Cross-platform trader risk profiles
-* Visualization dashboards for self-awareness
+## Ethical and Regulatory Considerations
 
+The system does not predict market movements.
+The system does not recommend buy or sell actions.
+The trader retains full control over strategy and intent.
+Only risk discipline is enforced at execution time.
 
-## Ethical and Legal Considerations
-
-* No market prediction
-* No buy or sell recommendations
-* Trader retains full control
-* System only enforces safety constraints
+This design ensures ethical operation and regulatory safety.
 
 
-## Conclusion
 
-This project introduces a **scalable, real-time, multi-agent AI system** designed to protect retail traders from behavioral and emotional mistakes. By focusing on risk discipline rather than prediction, the system fills a critical gap in current trading platforms.
+## Hackathon Context
 
-
+This project was developed during Autonomous Hacks - 26 organized by Google Developers Group Gandhinagar. The focus of development was on autonomy, real-time decision-making, and responsible fintech system design under time constraints.
